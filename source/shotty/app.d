@@ -45,15 +45,24 @@ void main(string[] args) {
             if (cmdlineOpts.outputFile.exists) cmdlineOpts.outputFile.remove; // clean up after ourselves
         }
     }
-
+    import std.conv : to;
     string outFile = cmdlineOpts.outputFile; 
-    if (outFile.length == 0) {
+    if (outFile.length == 0 && cmdlineOpts.copyToClipboard) {
         outFile = tempDir.buildPath("shotty_" ~ generateRandomString(20));
         cleanupNeeded = true;
     } else {
+        if (outFile.length == 0) {
+            // default to path given in the config file..
+            if (config.defaultFolder.length == 0) {
+                error("Please specify a default folder in your configuration file.");
+                return;
+            }
+            outFile = config.defaultFolder.fullyExpandPath();
+        }
         if (outFile.isValidPath() && outFile.exists() && outFile.isDir()) {
             outFile = outFile.fullyExpandPath();
             outFile = outFile.buildPath(generateFileName(config.schema));
+            outFile ~= "." ~ to!string(cmdlineOpts.format);
         } else {
             // assume they want us to output to a file
             outFile = buildNormalizedPath(outFile.fullyExpandPath());
@@ -61,21 +70,31 @@ void main(string[] args) {
             
     }
 
-    import std.conv : to;
-    cmdlineOpts.outputFile = outFile ~ "." ~ to!string(cmdlineOpts.format);
+    cmdlineOpts.outputFile = outFile;
         
     takeScreenshot(cmdlineOpts.outputFile);
 
-    if (cmdlineOpts.upload) {
-        import std.conv : to;
+    import std.conv : to;
+    if (cmdlineOpts.upload) { 
         if (cmdlineOpts.outputFile.exists) {
-            uploadToService(cmdlineOpts.outputFile, generateRandomString(10)); 
+            string remoteName = generateFileName(config.schema) ~ "." ~ to!string(cmdlineOpts.format);
+            string service = cmdlineOpts.uploader.to!string;
+            string remotePath = uploadToService(cmdlineOpts.outputFile, remoteName);
+            if(remotePath.length != 0) {
+                infof("File uploaded successfully. (uploader: %s)", service);
+                pasteClipboard(remotePath);
+            } else {
+                errorf("File was not uploaded successfully. (uploader: %s)", service);
+            }
         }
-    } else if (!cmdlineOpts.copyToClipboard) {
-        infof("Output saved as %s", cmdlineOpts.outputFile);
     }
 
-
+    if (!cmdlineOpts.copyToClipboard) {
+        infof("Output was saved as %s.", cmdlineOpts.outputFile);
+    } else {
+        pasteImageClipboard(cmdlineOpts.outputFile, "image/png"); // WTF? always has to be PNG?
+        infof("Output copied to your clipboard.");
+    }
 }
 
 

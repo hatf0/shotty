@@ -11,8 +11,8 @@ static ShottyConfig config;
 enum defaultConfigPath = "~/.shotty.json";
 
 enum ShottyFormats {
-    jpg,
-    png
+    png,
+    jpeg
 };
 
 struct ShottyCmdConfig {
@@ -27,6 +27,7 @@ struct ShottyCmdConfig {
 }
 
 struct ShottyConfig {
+    @serializationKeys("default_folder") string defaultFolder;
     @serializationKeys("uploaders") ShottyUploaderConfig uploaders;
     @serializationKeys("file_schema") string schema;
 

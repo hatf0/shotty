@@ -4,6 +4,6 @@ import asdf;
 struct ShottyImgurConfig {
 }
 
-void uploadFile(string path, string file_name) {
-
+string uploadFile(string path, string file_name) {
+    return "";
 }

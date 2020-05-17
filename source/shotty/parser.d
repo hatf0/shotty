@@ -1,6 +1,7 @@
 module shotty.parser;
 import shotty.schema;
 import std.experimental.logger;
+import std.conv;
 
 enum RandomTypes {
     Hex = "x",
@@ -19,7 +20,6 @@ T extractValue(T)(ParseTree tree) {
         current = current.children[0];
     }
 
-    import std.conv;
 
     ret = to!T(current.children[0].matches[0]); 
 
@@ -39,7 +39,6 @@ string generateRandom(ParseTree tree) {
     ParseTree type = tree.children[0].children[0];
     int count = extractValue!int(tree.children[1]);
 
-    import std.conv : to;
     static foreach(member; EnumMembers!RandomTypes) {
         if (type.matches[0] == member) {
             mixin("return generateRandom" ~ to!string(member) ~ "(count);");
@@ -49,9 +48,9 @@ string generateRandom(ParseTree tree) {
 
     assert(0, "Invalid type given");
 }
+
 import std.random : randomSample;
 import std.utf : byCodeUnit;
-import std.conv : to;
 import std.ascii;
 
 string generateRandomHex(size_t count) {
@@ -72,17 +71,31 @@ string evaluateGivenSchema(string schema) {
     auto o = appender!string;
     auto tree = ShottySchema(schema);
 
-    debug infof("%s", tree.toString());
+    import std.format;
+    import std.datetime.systime : SysTime, Clock;
+    SysTime currentTime = Clock.currTime();
+
     foreach (_entry; tree.children[0].children) {
         auto entry = _entry.children[0]; // wrapped by an Entry object, get the ACTUAL one
-
-        debug infof("%s", entry.name);
         if (entry.name == "ShottySchema.ConstStr") {
             o ~= extractValue!string(entry);
         } else if (entry.name == "ShottySchema.Random") {
             o ~= generateRandom(entry);
+        } else if (entry.name == "ShottySchema.Year") {
+            o ~= to!string(currentTime.year);
+        } else if (entry.name == "ShottySchema.Month") {
+            o ~= format!"%.2d"(currentTime.month);
+        } else if (entry.name == "ShottySchema.Day") {
+            o ~= format!"%.2d"(currentTime.day);
+        } else if (entry.name == "ShottySchema.Hour") {
+            o ~= format!"%.2d"(currentTime.hour);
+        } else if (entry.name == "ShottySchema.Minute") {
+            o ~= format!"%.2d"(currentTime.minute);
+        } else if (entry.name == "ShottySchema.Second") {
+            o ~= format!"%.2d"(currentTime.second);
+        } else if (entry.name == "ShottySchema.UnixTime") {
+            o ~= to!string(currentTime.toUnixTime);
         }
-
     }
 
     return o.data;

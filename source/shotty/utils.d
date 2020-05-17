@@ -31,4 +31,30 @@ string generateRandomString(size_t count) {
     return output;
 }
 
+import std.process : execute, spawnProcess, pipeProcess, kill, wait, Redirect;
+bool xclipPresent() {
+    try {
+        auto xclip = execute(["xclip", "-h"]);
+    } catch (Exception e) {
+        return false;
+    }
+
+    return true;
+}
+
+/* depends on xclip being present */
+void pasteClipboard(string input) {
+    if (!xclipPresent) return;
+    auto xclip = pipeProcess(["xclip", "-selection", "clipboard"], Redirect.stdin);
+    xclip.stdin.write(input);
+    xclip.stdin.close();
+    wait(xclip.pid);
+}
+
+void pasteImageClipboard(string path, string mimeType) {
+    if (!xclipPresent) return;
+    auto xclip = spawnProcess(["xclip", "-selection", "clipboard", "-t", mimeType, path]);
+    wait(xclip);
+}
+
 

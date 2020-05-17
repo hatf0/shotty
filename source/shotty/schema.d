@@ -4,10 +4,17 @@ This module was automatically generated from the following grammar:
 
 ShottySchema:
     Scheme   < Entry*
-    Entry    < "%" (ConstStr / Random)
+    Entry    < "%" (ConstStr / Random / Year / Month / Day / Hour / Minute / Second / UnixTime)
     Value    < :"{" (Number / String) :"}"
     Random   < "r" Type Value
     ConstStr < "s" Value
+    Year     < "y"
+    Month    < "m"
+    Day      < "d"
+    Hour     < "H"
+    Minute   < "M"
+    Second   < "S"
+    UnixTime < "unix"
 
     Type     < Hex / Alpha / Num
     Hex      < "x" 
@@ -45,6 +52,13 @@ struct GenericShottySchema(TParseTree)
         rules["Value"] = toDelegate(&Value);
         rules["Random"] = toDelegate(&Random);
         rules["ConstStr"] = toDelegate(&ConstStr);
+        rules["Year"] = toDelegate(&Year);
+        rules["Month"] = toDelegate(&Month);
+        rules["Day"] = toDelegate(&Day);
+        rules["Hour"] = toDelegate(&Hour);
+        rules["Minute"] = toDelegate(&Minute);
+        rules["Second"] = toDelegate(&Second);
+        rules["UnixTime"] = toDelegate(&UnixTime);
         rules["Type"] = toDelegate(&Type);
         rules["Hex"] = toDelegate(&Hex);
         rules["Alpha"] = toDelegate(&Alpha);
@@ -152,7 +166,7 @@ struct GenericShottySchema(TParseTree)
     {
         if(__ctfe)
         {
-            return         pegged.peg.defined!(pegged.peg.and!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("%"), Spacing), pegged.peg.wrapAround!(Spacing, pegged.peg.or!(pegged.peg.wrapAround!(Spacing, ConstStr, Spacing), pegged.peg.wrapAround!(Spacing, Random, Spacing)), Spacing)), "ShottySchema.Entry")(p);
+            return         pegged.peg.defined!(pegged.peg.and!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("%"), Spacing), pegged.peg.wrapAround!(Spacing, pegged.peg.or!(pegged.peg.wrapAround!(Spacing, ConstStr, Spacing), pegged.peg.wrapAround!(Spacing, Random, Spacing), pegged.peg.wrapAround!(Spacing, Year, Spacing), pegged.peg.wrapAround!(Spacing, Month, Spacing), pegged.peg.wrapAround!(Spacing, Day, Spacing), pegged.peg.wrapAround!(Spacing, Hour, Spacing), pegged.peg.wrapAround!(Spacing, Minute, Spacing), pegged.peg.wrapAround!(Spacing, Second, Spacing), pegged.peg.wrapAround!(Spacing, UnixTime, Spacing)), Spacing)), "ShottySchema.Entry")(p);
         }
         else
         {
@@ -160,7 +174,7 @@ struct GenericShottySchema(TParseTree)
                 return *m;
             else
             {
-                TParseTree result = hooked!(pegged.peg.defined!(pegged.peg.and!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("%"), Spacing), pegged.peg.wrapAround!(Spacing, pegged.peg.or!(pegged.peg.wrapAround!(Spacing, ConstStr, Spacing), pegged.peg.wrapAround!(Spacing, Random, Spacing)), Spacing)), "ShottySchema.Entry"), "Entry")(p);
+                TParseTree result = hooked!(pegged.peg.defined!(pegged.peg.and!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("%"), Spacing), pegged.peg.wrapAround!(Spacing, pegged.peg.or!(pegged.peg.wrapAround!(Spacing, ConstStr, Spacing), pegged.peg.wrapAround!(Spacing, Random, Spacing), pegged.peg.wrapAround!(Spacing, Year, Spacing), pegged.peg.wrapAround!(Spacing, Month, Spacing), pegged.peg.wrapAround!(Spacing, Day, Spacing), pegged.peg.wrapAround!(Spacing, Hour, Spacing), pegged.peg.wrapAround!(Spacing, Minute, Spacing), pegged.peg.wrapAround!(Spacing, Second, Spacing), pegged.peg.wrapAround!(Spacing, UnixTime, Spacing)), Spacing)), "ShottySchema.Entry"), "Entry")(p);
                 memo[tuple(`Entry`, p.end)] = result;
                 return result;
             }
@@ -171,12 +185,12 @@ struct GenericShottySchema(TParseTree)
     {
         if(__ctfe)
         {
-            return         pegged.peg.defined!(pegged.peg.and!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("%"), Spacing), pegged.peg.wrapAround!(Spacing, pegged.peg.or!(pegged.peg.wrapAround!(Spacing, ConstStr, Spacing), pegged.peg.wrapAround!(Spacing, Random, Spacing)), Spacing)), "ShottySchema.Entry")(TParseTree("", false,[], s));
+            return         pegged.peg.defined!(pegged.peg.and!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("%"), Spacing), pegged.peg.wrapAround!(Spacing, pegged.peg.or!(pegged.peg.wrapAround!(Spacing, ConstStr, Spacing), pegged.peg.wrapAround!(Spacing, Random, Spacing), pegged.peg.wrapAround!(Spacing, Year, Spacing), pegged.peg.wrapAround!(Spacing, Month, Spacing), pegged.peg.wrapAround!(Spacing, Day, Spacing), pegged.peg.wrapAround!(Spacing, Hour, Spacing), pegged.peg.wrapAround!(Spacing, Minute, Spacing), pegged.peg.wrapAround!(Spacing, Second, Spacing), pegged.peg.wrapAround!(Spacing, UnixTime, Spacing)), Spacing)), "ShottySchema.Entry")(TParseTree("", false,[], s));
         }
         else
         {
             forgetMemo();
-            return hooked!(pegged.peg.defined!(pegged.peg.and!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("%"), Spacing), pegged.peg.wrapAround!(Spacing, pegged.peg.or!(pegged.peg.wrapAround!(Spacing, ConstStr, Spacing), pegged.peg.wrapAround!(Spacing, Random, Spacing)), Spacing)), "ShottySchema.Entry"), "Entry")(TParseTree("", false,[], s));
+            return hooked!(pegged.peg.defined!(pegged.peg.and!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("%"), Spacing), pegged.peg.wrapAround!(Spacing, pegged.peg.or!(pegged.peg.wrapAround!(Spacing, ConstStr, Spacing), pegged.peg.wrapAround!(Spacing, Random, Spacing), pegged.peg.wrapAround!(Spacing, Year, Spacing), pegged.peg.wrapAround!(Spacing, Month, Spacing), pegged.peg.wrapAround!(Spacing, Day, Spacing), pegged.peg.wrapAround!(Spacing, Hour, Spacing), pegged.peg.wrapAround!(Spacing, Minute, Spacing), pegged.peg.wrapAround!(Spacing, Second, Spacing), pegged.peg.wrapAround!(Spacing, UnixTime, Spacing)), Spacing)), "ShottySchema.Entry"), "Entry")(TParseTree("", false,[], s));
         }
     }
     static string Entry(GetName g)
@@ -290,6 +304,258 @@ struct GenericShottySchema(TParseTree)
     static string ConstStr(GetName g)
     {
         return "ShottySchema.ConstStr";
+    }
+
+    static TParseTree Year(TParseTree p)
+    {
+        if(__ctfe)
+        {
+            return         pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("y"), Spacing), "ShottySchema.Year")(p);
+        }
+        else
+        {
+            if (auto m = tuple(`Year`, p.end) in memo)
+                return *m;
+            else
+            {
+                TParseTree result = hooked!(pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("y"), Spacing), "ShottySchema.Year"), "Year")(p);
+                memo[tuple(`Year`, p.end)] = result;
+                return result;
+            }
+        }
+    }
+
+    static TParseTree Year(string s)
+    {
+        if(__ctfe)
+        {
+            return         pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("y"), Spacing), "ShottySchema.Year")(TParseTree("", false,[], s));
+        }
+        else
+        {
+            forgetMemo();
+            return hooked!(pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("y"), Spacing), "ShottySchema.Year"), "Year")(TParseTree("", false,[], s));
+        }
+    }
+    static string Year(GetName g)
+    {
+        return "ShottySchema.Year";
+    }
+
+    static TParseTree Month(TParseTree p)
+    {
+        if(__ctfe)
+        {
+            return         pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("m"), Spacing), "ShottySchema.Month")(p);
+        }
+        else
+        {
+            if (auto m = tuple(`Month`, p.end) in memo)
+                return *m;
+            else
+            {
+                TParseTree result = hooked!(pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("m"), Spacing), "ShottySchema.Month"), "Month")(p);
+                memo[tuple(`Month`, p.end)] = result;
+                return result;
+            }
+        }
+    }
+
+    static TParseTree Month(string s)
+    {
+        if(__ctfe)
+        {
+            return         pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("m"), Spacing), "ShottySchema.Month")(TParseTree("", false,[], s));
+        }
+        else
+        {
+            forgetMemo();
+            return hooked!(pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("m"), Spacing), "ShottySchema.Month"), "Month")(TParseTree("", false,[], s));
+        }
+    }
+    static string Month(GetName g)
+    {
+        return "ShottySchema.Month";
+    }
+
+    static TParseTree Day(TParseTree p)
+    {
+        if(__ctfe)
+        {
+            return         pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("d"), Spacing), "ShottySchema.Day")(p);
+        }
+        else
+        {
+            if (auto m = tuple(`Day`, p.end) in memo)
+                return *m;
+            else
+            {
+                TParseTree result = hooked!(pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("d"), Spacing), "ShottySchema.Day"), "Day")(p);
+                memo[tuple(`Day`, p.end)] = result;
+                return result;
+            }
+        }
+    }
+
+    static TParseTree Day(string s)
+    {
+        if(__ctfe)
+        {
+            return         pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("d"), Spacing), "ShottySchema.Day")(TParseTree("", false,[], s));
+        }
+        else
+        {
+            forgetMemo();
+            return hooked!(pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("d"), Spacing), "ShottySchema.Day"), "Day")(TParseTree("", false,[], s));
+        }
+    }
+    static string Day(GetName g)
+    {
+        return "ShottySchema.Day";
+    }
+
+    static TParseTree Hour(TParseTree p)
+    {
+        if(__ctfe)
+        {
+            return         pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("H"), Spacing), "ShottySchema.Hour")(p);
+        }
+        else
+        {
+            if (auto m = tuple(`Hour`, p.end) in memo)
+                return *m;
+            else
+            {
+                TParseTree result = hooked!(pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("H"), Spacing), "ShottySchema.Hour"), "Hour")(p);
+                memo[tuple(`Hour`, p.end)] = result;
+                return result;
+            }
+        }
+    }
+
+    static TParseTree Hour(string s)
+    {
+        if(__ctfe)
+        {
+            return         pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("H"), Spacing), "ShottySchema.Hour")(TParseTree("", false,[], s));
+        }
+        else
+        {
+            forgetMemo();
+            return hooked!(pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("H"), Spacing), "ShottySchema.Hour"), "Hour")(TParseTree("", false,[], s));
+        }
+    }
+    static string Hour(GetName g)
+    {
+        return "ShottySchema.Hour";
+    }
+
+    static TParseTree Minute(TParseTree p)
+    {
+        if(__ctfe)
+        {
+            return         pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("M"), Spacing), "ShottySchema.Minute")(p);
+        }
+        else
+        {
+            if (auto m = tuple(`Minute`, p.end) in memo)
+                return *m;
+            else
+            {
+                TParseTree result = hooked!(pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("M"), Spacing), "ShottySchema.Minute"), "Minute")(p);
+                memo[tuple(`Minute`, p.end)] = result;
+                return result;
+            }
+        }
+    }
+
+    static TParseTree Minute(string s)
+    {
+        if(__ctfe)
+        {
+            return         pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("M"), Spacing), "ShottySchema.Minute")(TParseTree("", false,[], s));
+        }
+        else
+        {
+            forgetMemo();
+            return hooked!(pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("M"), Spacing), "ShottySchema.Minute"), "Minute")(TParseTree("", false,[], s));
+        }
+    }
+    static string Minute(GetName g)
+    {
+        return "ShottySchema.Minute";
+    }
+
+    static TParseTree Second(TParseTree p)
+    {
+        if(__ctfe)
+        {
+            return         pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("S"), Spacing), "ShottySchema.Second")(p);
+        }
+        else
+        {
+            if (auto m = tuple(`Second`, p.end) in memo)
+                return *m;
+            else
+            {
+                TParseTree result = hooked!(pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("S"), Spacing), "ShottySchema.Second"), "Second")(p);
+                memo[tuple(`Second`, p.end)] = result;
+                return result;
+            }
+        }
+    }
+
+    static TParseTree Second(string s)
+    {
+        if(__ctfe)
+        {
+            return         pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("S"), Spacing), "ShottySchema.Second")(TParseTree("", false,[], s));
+        }
+        else
+        {
+            forgetMemo();
+            return hooked!(pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("S"), Spacing), "ShottySchema.Second"), "Second")(TParseTree("", false,[], s));
+        }
+    }
+    static string Second(GetName g)
+    {
+        return "ShottySchema.Second";
+    }
+
+    static TParseTree UnixTime(TParseTree p)
+    {
+        if(__ctfe)
+        {
+            return         pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("unix"), Spacing), "ShottySchema.UnixTime")(p);
+        }
+        else
+        {
+            if (auto m = tuple(`UnixTime`, p.end) in memo)
+                return *m;
+            else
+            {
+                TParseTree result = hooked!(pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("unix"), Spacing), "ShottySchema.UnixTime"), "UnixTime")(p);
+                memo[tuple(`UnixTime`, p.end)] = result;
+                return result;
+            }
+        }
+    }
+
+    static TParseTree UnixTime(string s)
+    {
+        if(__ctfe)
+        {
+            return         pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("unix"), Spacing), "ShottySchema.UnixTime")(TParseTree("", false,[], s));
+        }
+        else
+        {
+            forgetMemo();
+            return hooked!(pegged.peg.defined!(pegged.peg.wrapAround!(Spacing, pegged.peg.literal!("unix"), Spacing), "ShottySchema.UnixTime"), "UnixTime")(TParseTree("", false,[], s));
+        }
+    }
+    static string UnixTime(GetName g)
+    {
+        return "ShottySchema.UnixTime";
     }
 
     static TParseTree Type(TParseTree p)

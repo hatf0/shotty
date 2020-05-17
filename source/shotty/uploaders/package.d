@@ -21,15 +21,14 @@ struct ShottyUploaderConfig {
     }
 }
 
-void uploadToService(string uploadPath, string remotePath) {
+string uploadToService(string uploadPath, string remotePath) {
     switch (cmdlineOpts.uploader) {
         static foreach(member; EnumMembers!ShottyUploaders) {
             case member:
                 mixin("import shotty.uploaders." ~ to!string(member) ~ ";");
                 with (mixin("shotty.uploaders." ~ to!string(member))) {
-                    uploadFile(uploadPath, remotePath);
+                    return uploadFile(uploadPath, remotePath);
                 }
-                return;
         }
         default: assert(0, "Unknown uploader");
     }

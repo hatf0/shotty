@@ -77,7 +77,12 @@ void main(string[] args) {
     import std.conv : to;
     if (cmdlineOpts.upload) { 
         if (cmdlineOpts.outputFile.exists) {
-            string remoteName = generateFileName(config.schema) ~ "." ~ to!string(cmdlineOpts.format);
+            string remoteName;
+            if (cleanupNeeded) {
+                remoteName = generateFileName(config.schema) ~ "." ~ to!string(cmdlineOpts.format);
+            } else {
+                remoteName = baseName(cmdlineOpts.outputFile);
+            }
             string service = cmdlineOpts.uploader.to!string;
             string remotePath = uploadToService(cmdlineOpts.outputFile, remoteName);
             if(remotePath.length != 0) {
@@ -89,9 +94,9 @@ void main(string[] args) {
         }
     }
 
-    if (!cmdlineOpts.copyToClipboard) {
+    if (!cmdlineOpts.copyToClipboard && cmdlineOpts.outputFile.exists) {
         infof("Output was saved as %s.", cmdlineOpts.outputFile);
-    } else {
+    } else if (cmdlineOpts.copyToClipboard && cmdlineOpts.outputFile.exists) {
         pasteImageClipboard(cmdlineOpts.outputFile, "image/png"); // WTF? always has to be PNG?
         infof("Output copied to your clipboard.");
     }

@@ -112,10 +112,7 @@ string uploadFile(string path, string file_name) {
         return "";
     }
 
-    infof(cfg.customDomain);
-
     if (cfg.customDomain.length != 0) {
-        infof("wtf?");
         return cfg.customDomain ~ "/" ~ uploadPath;
     } else {
         return requestUrl;

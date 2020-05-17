@@ -1,8 +1,6 @@
 module shotty.uploaders.azure;
 import asdf;
 
-static ShottyAzureConfig azureConfig;
-
 struct ShottyAzureConfig {
     @serializationKeys("account_name")
     @serializationIgnoreDefault
@@ -24,3 +22,6 @@ struct ShottyAzureConfig {
         string uploadPath;
 }
 
+void uploadFile(string path, string file_name) {
+
+}

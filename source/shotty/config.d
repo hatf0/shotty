@@ -9,11 +9,17 @@ static ShottyConfig config;
 
 enum defaultConfigPath = "~/.shotty.json";
 
+enum ShottyFormats {
+    jpg,
+    png
+};
+
 struct ShottyCmdConfig {
     bool copyToClipboard; // whether a temp file will be created, and then passed to xclip or whatever
     bool selection; // whether we should have a selection
     bool upload;
-    string uploader;
+    ShottyFormats format; // jpg/png...
+    ShottyUploaders uploader;
     string configFile;
 }
 
@@ -23,25 +29,20 @@ struct ShottyConfig {
 
     void load(string path = defaultConfigPath) {
         import std.file : read, exists, isFile;
-
         if (path[0 .. 2] == "~/") {
             path = path.expandTilde();
         }
         path = path.absolutePath();
-
         if (!exists(path)) {
             infof("Config file at %s doesn't exist.. creating new config", path);
             config.save(path);
             return;
         }
-
         if (!isFile(path)) {
             errorf("Config file \"%s\" was not readable as it's not a file...", path);
             return;
         }
-
         string json = cast(string)read(path);
-
         try {
             this = json.deserialize!ShottyConfig();
         } catch (AsdfException e) {
@@ -55,7 +56,6 @@ struct ShottyConfig {
         if (path[0 .. 2] == "~/") {
             path = path.expandTilde();
         }
-
         write(path.absolutePath(), json);
     }
 }

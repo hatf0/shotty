@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/shotty_dev
+shotty_dev.so
+shotty_dev.dylib
+shotty_dev.dll
+shotty_dev.a
+shotty_dev.lib
+shotty_dev-test-*
+*.exe
+*.o
+*.obj
+*.lst

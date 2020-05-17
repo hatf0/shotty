@@ -17,7 +17,7 @@ enum ShottyUploaders {
 import std.string : capitalize;
 struct ShottyUploaderConfig {
     static foreach(member; EnumMembers!ShottyUploaders) {
-        mixin("@serializationKeys(\"" ~ to!string(member) ~"\") Shotty" ~ to!string(member).capitalize ~ "Config " ~ to!string(member) ~ ";");
+        mixin("@serializationKeys(\"" ~ to!string(member) ~"\") @serializationIgnoreDefault Shotty" ~ to!string(member).capitalize ~ "Config " ~ to!string(member) ~ ";");
     }
 }
 
@@ -26,10 +26,11 @@ void uploadToService(string uploadPath, string remotePath) {
         static foreach(member; EnumMembers!ShottyUploaders) {
             case member:
                 mixin("import shotty.uploaders." ~ to!string(member) ~ ";");
-                mixin("shotty.uploaders." ~ to!string(member) ~ ".uploadFile(uploadPath, remotePath);");
+                with (mixin("shotty.uploaders." ~ to!string(member))) {
+                    uploadFile(uploadPath, remotePath);
+                }
                 return;
         }
         default: assert(0, "Unknown uploader");
     }
-
 }

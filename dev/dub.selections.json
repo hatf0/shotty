@@ -1,7 +1,6 @@
 {
 	"fileVersion": 1,
 	"versions": {
-		"asdf": "0.5.7",
 		"pegged": "0.4.4"
 	}
 }

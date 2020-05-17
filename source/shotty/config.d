@@ -1,7 +1,8 @@
 module shotty.config;
 import shotty.uploaders;
+import shotty.utils;
+import shotty.shooters;
 import std.experimental.logger;
-import std.path : absolutePath, expandTilde;
 import asdf;
 
 static ShottyCmdConfig cmdlineOpts;
@@ -20,19 +21,18 @@ struct ShottyCmdConfig {
     bool upload;
     ShottyFormats format; // jpg/png...
     ShottyUploaders uploader;
+    ShottyShooters shooter;
     string configFile;
+    string outputFile;
 }
 
 struct ShottyConfig {
     @serializationKeys("uploaders") ShottyUploaderConfig uploaders;
-    @serializationKeys("url_schema") string schema = "%ra{10}";
+    @serializationKeys("file_schema") string schema;
 
     void load(string path = defaultConfigPath) {
         import std.file : read, exists, isFile;
-        if (path[0 .. 2] == "~/") {
-            path = path.expandTilde();
-        }
-        path = path.absolutePath();
+        path = path.fullyExpandPath();
         if (!exists(path)) {
             infof("Config file at %s doesn't exist.. creating new config", path);
             config.save(path);
@@ -53,10 +53,7 @@ struct ShottyConfig {
     void save(string path = defaultConfigPath) {
         import std.file : write;
         string json = this.serializeToJsonPretty();
-        if (path[0 .. 2] == "~/") {
-            path = path.expandTilde();
-        }
-        write(path.absolutePath(), json);
+        write(path.fullyExpandPath(), json);
     }
 }
 
